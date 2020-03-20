@@ -640,34 +640,33 @@ Route::get('/delete',function(){
                $table->timestamps();
            });
        }
-   
    ```
-
-   refresh database
-
-    ```cmd
- php artisan migrate:refresh
-    ```
+   
+refresh database
+   
+ ```cmd
+    php artisan migrate:refresh
+ ```
    
     add some data to table user and table post
-
-    users table
-
-    ```sql
- name,email,password,created_at,updated_at
-    ```
+   
+ users table
+   
+ ```sql
+    name,email,password,created_at,updated_at
+ ```
    
     post table
-
-    ```sql
- title,content,user_id=1created_at,updated_at,is_admin,
-    ```
+   
+ ```sql
+    title,content,user_id=1created_at,updated_at,is_admin,
+ ```
    
     routes.php
-
-    ```php
- Route::get('/user/{id}/post',function($id){
-        // show one record
+   
+ ```php
+    Route::get('/user/{id}/post',function($id){
+     // show one record
         return User::find($id)->post;
         // show one field
         return User::find($id)->post->content;
@@ -675,17 +674,17 @@ Route::get('/delete',function(){
     ```
    
     add function post to User.php
-
-    ```php
- <?php
    
+ ```php
+    <?php
+
     namespace App;
-
-    use Illuminate\Foundation\Auth\User as Authenticatable;
-
-    class User extends Authenticatable
- {
-        /**
+   
+ use Illuminate\Foundation\Auth\User as Authenticatable;
+   
+ class User extends Authenticatable
+    {
+     /**
          * The attributes that are mass assignable.
          *
          * @var array
@@ -707,7 +706,7 @@ Route::get('/delete',function(){
         }
     }
     ```
-
+   
 2. The inverse relation
 
    routes.php
