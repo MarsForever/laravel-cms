@@ -1067,6 +1067,55 @@ Route::get('/delete',function(){
    (4, 'php 2.jpg', 2, 'App\\Post', NULL, NULL);
    ```
 
+   update User.php
+
+   ```php
+       public function photos(){
+           return $this->morphMany('App\Photo','immageable');
+       }
+   ```
+
+   update Photo.php
+
+   ```php
+       public function immageable(){
+           return $this->morphTo() ;
+       }
+   ```
+
+   update Post.php
+
+   ```php
+       public function photos(){
+           return $this->morphMany('App\Photo','immageable');
+       }
+   ```
+
+   add get to routes.php
+
+   ```php
+   Route::get('user/photos',function(){
+       $user = User::find(1);
+       foreach($user->photos as $photo){
+           return $photo->path;
+       }
+   });
+   
+   Route::get('/post/photos',function(){
+       $post = Post::find(1);
+       foreach($post->photos as $photo){
+           echo $photo->path . '<br>';
+       }
+   });
+   
+   Route::get('/post/{id}/photos',function($id){
+       $post = Post::find($id);
+       foreach($post->photos as $photo){
+           echo $photo->path . '<br>';
+       }
+   });
+   ```
+
    
 
 10. Polymorphic relation the inverse
