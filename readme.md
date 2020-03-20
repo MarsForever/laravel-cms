@@ -1131,13 +1131,62 @@ Route::get('/delete',function(){
 
     
 
-11. Polymorphic relation many to many part 1
+11. Polymorphic relation many to many part 1 part 2
 
-12. Polymorphic relation many to many part 2
+    ```cmd
+    php artisan make:model Video -m
+    php artisan make:model Tag -m
+    php artisan make:model Taggable -m
+    ```
 
-13. Polymorphic relation many to many - retrieving
+    add name field to create_vides_table.php
 
-14. Polymorphic relation may to many - retrieving owner
+    ```php
+            Schema::create('videos', function (Blueprint $table) {
+                $table->increments('id');
+                $table->string('name');
+                $table->timestamps();
+            });
+    ```
+
+    add name filed to create_tags_table.php
+
+    ```php
+            Schema::create('tags', function (Blueprint $table) {
+                $table->increments('id');
+                $table->string('name');
+                $table->timestamps();
+            });
+    ```
+
+    add tag_id,taggable_id,taggable_type to create_taggables_table.php
+
+    ```php
+            Schema::create('taggables', function (Blueprint $table) {
+                $table->integer('tag_id');
+                $table->integer('taggable_id');
+                $table->integer('taggable_type');
+            });
+    ```
+
+    add new function to Tag.php
+
+    ```php
+        public function posts(){
+            return $this->morphedByMany('App\Post', 'taggable');
+        }
+        public function video(){
+            return $this->morphedByMany('App\Video', 'taggable');
+        }
+    ```
+
+    
+
+    
+
+12. Polymorphic relation many to many - retrieving
+
+13. Polymorphic relation may to many - retrieving owner
 
 ### Section13:Laravel Fundamentals - Database - One to One Relationship CRUD
 
