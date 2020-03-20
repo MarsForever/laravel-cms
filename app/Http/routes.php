@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Route;
 use App\Country;
 use App\Post;
 use App\User;
+use App\Photo;
 Route::get('/', function () {
     return view('welcome');
 });
@@ -228,23 +229,28 @@ Route::get('/softdelete',function(){
 // });
 
 // Polymorphic relation 
-Route::get('user/photos',function(){
-    $user = User::find(1);
-    foreach($user->photos as $photo){
-        return $photo->path;
-    }
-});
+// Route::get('user/photos',function(){
+//     $user = User::find(1);
+//     foreach($user->photos as $photo){
+//         return $photo->path;
+//     }
+// });
 
-Route::get('/post/photos',function(){
-    $post = Post::find(1);
-    foreach($post->photos as $photo){
-        echo $photo->path . '<br>';
-    }
-});
+// Route::get('/post/photos',function(){
+//     $post = Post::find(1);
+//     foreach($post->photos as $photo){
+//         echo $photo->path . '<br>';
+//     }
+// });
 
-Route::get('/post/{id}/photos',function($id){
-    $post = Post::find($id);
-    foreach($post->photos as $photo){
-        echo $photo->path . '<br>';
-    }
+// Route::get('/post/{id}/photos',function($id){
+//     $post = Post::find($id);
+//     foreach($post->photos as $photo){
+//         echo $photo->path . '<br>';
+//     }
+// });
+
+Route::get('/photo/{id}/post', function($id){
+    $photo = Photo::findOrFail($id);
+    return $photo->immageable;
 });

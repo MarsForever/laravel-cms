@@ -1120,6 +1120,17 @@ Route::get('/delete',function(){
 
 10. Polymorphic relation the inverse
 
+    routes.php
+
+    ```php
+    Route::get('/photo/{id}/post', function($id){
+        $photo = Photo::findOrFail($id);
+        return $photo->immageable;
+    });
+    ```
+
+    
+
 11. Polymorphic relation many to many part 1
 
 12. Polymorphic relation many to many part 2
