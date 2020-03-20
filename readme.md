@@ -1180,6 +1180,18 @@ Route::get('/delete',function(){
         }
     ```
 
+    add new functions to Post.php
+
+    ```php
+        public function photos(){
+            return $this->morphMany('App\Photo','immageable');
+        }
+    
+        public function tags(){
+            return $this->morphToMany('App\Tag', 'App\taggable');
+        }
+    ```
+
     
 
     
