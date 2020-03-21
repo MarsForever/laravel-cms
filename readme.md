@@ -629,7 +629,7 @@ Route::get('/delete',function(){
 
 [Docs - Eloquent 5.2](https://laravel.com/docs/5.2/eloquent)
 
-### Section12:Laravel Fundamentals - Database - Tinker
+### Section11:Laravel Fundamentals - Database - Eloquent Relationships
 
 1. One to One relationship
 
@@ -1273,6 +1273,8 @@ refresh database
     ```
 
     
+
+### Section12:Laravel Fundamentals - Database - Tinker
 
 ### Section13:Laravel Fundamentals - Database - One to One Relationship CRUD
 
