@@ -96,6 +96,12 @@ C:\xampp\apache\conf\extra\httpd-vhosts.conf
 ```
 and restart xampp apache
 
+
+
+Access url:
+
+cms.test:3000/phpmyadmin
+
 #### Use PhpStorm
 open project
 C:\xampp\htdocs\cms
@@ -642,28 +648,29 @@ Route::get('/delete',function(){
        }
    ```
    
+
 refresh database
-   
+
  ```cmd
     php artisan migrate:refresh
  ```
-   
+
     add some data to table user and table post
-   
+
  users table
-   
+
  ```sql
     name,email,password,created_at,updated_at
  ```
-   
+
     post table
-   
+
  ```sql
     title,content,user_id=1created_at,updated_at,is_admin,
  ```
-   
+
     routes.php
-   
+
  ```php
     Route::get('/user/{id}/post',function($id){
      // show one record
@@ -671,10 +678,10 @@ refresh database
         // show one field
         return User::find($id)->post->content;
     });
-    ```
-   
+ ```
+
     add function post to User.php
-   
+
  ```php
     <?php
 
@@ -705,8 +712,8 @@ refresh database
             return $this->hasOne('App\Post');
         }
     }
-    ```
-   
+ ```
+
 2. The inverse relation
 
    routes.php
@@ -1164,8 +1171,14 @@ refresh database
             Schema::create('taggables', function (Blueprint $table) {
                 $table->integer('tag_id');
                 $table->integer('taggable_id');
-                $table->integer('taggable_type');
+                $table->string('taggable_type');
             });
+    ```
+
+    migrate the table
+
+    ```shell
+    php artisan migrate
     ```
 
     add new function to Tag.php
@@ -1187,15 +1200,37 @@ refresh database
         }
     
         public function tags(){
-            return $this->morphToMany('App\Tag', 'App\taggable');
+            return $this->morphToMany('App\Tag', 'taggable');
         }
     ```
 
-    
-
-    
-
 12. Polymorphic relation many to many - retrieving
+
+    insert two data to video table
+
+    ```sql
+    INSERT INTO `videos` (`id`, `name`, `created_at`, `updated_at`) VALUES
+    (1, 'matsu.mv', NULL, NULL),
+    (2, 'nakayama.mv', NULL, NULL);
+    ```
+
+    insert two data to tag table
+
+    ```sql
+    INSERT INTO `tags` (`id`, `name`, `created_at`, `updated_at`) VALUES
+    (1, 'aws sap', NULL, NULL),
+    (2, 'aws saa', NULL, NULL);
+    ```
+
+    insert two data to taggable table
+
+    ```sql
+    INSERT INTO `taggables` (`tag_id`, `taggable_id`, `taggable_type`) VALUES
+    (1, 1, 'App\\Video'),
+    (2, 1, 'App\\Post');
+    ```
+
+    
 
 13. Polymorphic relation may to many - retrieving owner
 
