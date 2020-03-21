@@ -250,7 +250,15 @@ Route::get('/softdelete',function(){
 //     }
 // });
 
-Route::get('/photo/{id}/post', function($id){
-    $photo = Photo::findOrFail($id);
-    return $photo->immageable;
+// Route::get('/photo/{id}/post', function($id){
+//     $photo = Photo::findOrFail($id);
+//     return $photo->immageable;
+// });
+
+// Ploymorphic relation many to many 
+Route::get('/post/tag',function(){
+    $post = Post::find(1);
+    foreach($post->tags as $tag){
+        echo $tag->name;
+    }
 });
