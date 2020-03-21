@@ -17,6 +17,7 @@ use App\Country;
 use App\Post;
 use App\User;
 use App\Photo;
+use App\Tag;
 Route::get('/', function () {
     return view('welcome');
 });
@@ -256,9 +257,34 @@ Route::get('/softdelete',function(){
 // });
 
 // Ploymorphic relation many to many 
+//  get tags
 Route::get('/post/tag',function(){
     $post = Post::find(1);
     foreach($post->tags as $tag){
         echo $tag->name;
     }
 });
+//  get photos
+Route::get('/post/photo',function(){
+    $post = Post::find(2);
+    foreach($post->photos as $photo ){
+        echo $photo->path . "<br>";
+    }
+});
+//  get the post
+    Route::get('/tag/post',function(){
+        $tag = Tag::find(2);
+        // return $tag->posts;
+        foreach($tag->posts as $post){
+            echo $post->title;
+        }
+    });
+
+// get the video
+    Route::get('/tag/video',function(){
+        $tag = Tag::find(1);
+        // return $tag;
+        foreach($tag->videos as $video){
+            echo $video->name;
+        }
+    });
