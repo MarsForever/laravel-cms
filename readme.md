@@ -1272,13 +1272,137 @@ refresh database
         });
     ```
 
-    
+    ###  ??? didn't understand relation and ploymorphic
 
 ### Section12:Laravel Fundamentals - Database - Tinker
 
+1. Creating data with tinker
+
+   ```shell
+   # create data using tinker
+   php artisan tinker
+   $post = App\Post::create(['title'=>'PHP post created by tinker', 'content'=>'PHP content created by tinker']);
+   # show data again
+   $post
+   #create new object
+   $post = new App\Post();
+   #show data again
+   $post
+   #add data to field
+   $post->title = "New title from new object"
+   $post->content = "New content from new object"
+   #show data
+   $post
+   #insert data to database
+   $post->save();
+   #show the result again
+   $post
+   ```
+
+2. Finding record and using constraints in tinker
+
+   ```shell
+   php artisan tinker
+   $post = App\Post::find(4);
+   $post = App\Post::where("id","4")->first();
+   $post = App\Post::whereId("4")->first();
+   ```
+
+3. Updating and deleting with tinker
+
+   ```shell
+   php artisan tinker
+   $post = App\Post::find(4)
+   $post->title = "update id 4 title"
+   $post->content = "update id 4 content"
+   #database will be update persistent
+   $post->save()
+   #soft delete, field "deleted_at" will be updated
+   $post->delete()
+   #show soft deleted recored
+   $post = App\Post::onlyTrashed()->find(4)
+   #restore data from soft delete
+   $post->restore()
+   #delete record persistent from db
+   $post->forceDelete()
+   
+   ```
+
+4. Playing around with relations in tinker
+
+   ```shell
+   php artisan tinker
+   $user = App\User::find(1)
+   $user->photos
+   $user->roles
+   ```
+
 ### Section13:Laravel Fundamentals - Database - One to One Relationship CRUD
+
+1. Creating a new Laravel installation / Setup
+
+   
+
+2. Database configuration and migration
+
+3. Setting up Relations
+
+4. Creating data for user
+
+5. updating Data
+
+6. Reading and deleting data
 
 ### Section14:Laravel Fundamentals - Database - Eloquent One to Many Relationship CRUD
 
+1. Creating a new Laravel installation / Setup
+2. Database migrations
+3. Relationships and mass assignment
+4. Inserting Data
+5. Reading Data
+6. Updating Data
+7. Deleting Data
+
 ### Section15:Laravel Fundamentals - Database - Eloquent Many to Many Relationship CRUD
+
+1. Creating a new Laravel installation / Setup
+2. Database migrations
+3. Relationships and mass assignment
+4. Inserting Data
+5. Reading Data
+6. Updating Data
+7. Deleting Data
+8. Attaching, detaching and syncing
+
+### Section16:Database - Eloquent Polymorphic Relationship CRUD
+
+### Section17:Database - Eloquent Polymorphic Many to Many Relationship CRUD
+
+### Section18:Forms and Validation
+
+### Section19:Forms - Package and validation
+
+### Section20:Database - Some more model manipulation
+
+### Section21:Forms - Uploading files
+
+### Section22:Form - Login
+
+### Section23:Middleware - Security / Protection
+
+### Section24:Laravel Sessions
+
+### Section25:Laravel - Sending Email / Api
+
+### Seciton26:Git and Github - Version Control
+
+### Section27:Application
+
+### Section28:Application - Posts
+
+### Section29:Application - Categories
+
+### Section30:Application - Media
+
+### Section31:Application - Comments
 
