@@ -74,6 +74,7 @@ cd xampp/htdocs/
 composer create-project --prefer-dist laravel/laravel todoapp 5.2.29
 edit host file
 C:\Windows\System32\drivers\etc\host
+
 ```
 127.0.0.1       localhost
 127.0.0.1       cms.test
@@ -1341,17 +1342,174 @@ refresh database
 
 1. Creating a new Laravel installation / Setup
 
+   ```shell
+   #windows
+   cd C:\xamp\htdocs
+   composer create-project --prefer-dist laravel/laravel onetoone 5.2.29
+   #add 127.0.0.1       oentoone.test to host file
+   C:\Windows\System32\drivers\etc\host
+   #C:\xampp\apache\conf\extra
+   #add the following to httpd-vhosts.conf
    
+   <VirtualHost *:3000>
+       DocumentRoot "C:/xampp/htdocs/onetoone/public"
+       ServerName onetoone.test
+   </VirtualHost>
+   
+   #Mac cd /Applications/XAMMP/htdocs/
+   composer create-project --prefer-dist laravel/laravel onetoone 5.2.29
+   #add 127.0.0.1       oentoone.test to host file
+   sudo nano /etc/hosts 
+   #cd /Applications/XAMPP/etc/extra/
+   sudo nano httpd-vhosts.conf
+   
+   ```
+
+   http://oentoone.test:3000/phpmyadmin/
 
 2. Database configuration and migration
+   create databases
+
+   onetoone collation
+
+   
+
+   setting .env
+
+   ```properties
+   DB_CONNECTION=mysql
+   DB_HOST=127.0.0.1
+   DB_PORT=3306
+   DB_DATABASE=onetoone
+   DB_USERNAME=root
+   DB_PASSWORD=
+   ```
+
+   
+
+   ```shell
+   #create model Address
+   php artisan make:model Address -m
+   ```
+
+   add  column name to 2020_03_23_140728_create_addresses_table.php
+
+   ```php
+          Schema::create('addresses', function (Blueprint $table) {
+               $table->increments('id');
+               $table->string('name');
+               $table->timestamps();
+           });
+   ```
+
+   ```shell
+   php artisan migrate
+   ```
 
 3. Setting up Relations
 
+   add column user_id to  2020_03_23_140728_create_addresses_table.php
+
+   ```shell
+               $table->integer('user_id')->unsinged()->nullable();
+   ```
+
+   ```shell
+   #refresh database will delete all records and refresh database
+   php artisan migrate:refresh
+   ```
+
+   add function address User.php
+
+   ```php
+       public function address(){
+           return $this->hsaOne('App\Address');
+       }
+   ```
+   
 4. Creating data for user
+
+   insert data to users
+
+   ```php
+   INSERT INTO `users` (`id`, `name`, `email`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
+   (1, 'matsu', 'matsu@mail.com', '123', NULL, '2020-03-22 15:00:00', '2020-03-22 15:00:00');
+   ```
+
+   routes.php
+
+   ```php
+   Route::get('/insert',function(){
+       $user = User::findOrFail(1);
+       $address = new Address(['name'=>'address name 1']);
+       $user->address()->save($address);
+   });
+   ```
+
+   Address.php
+
+   ```php
+   class Address extends Model
+   {
+       //
+       protected $fillable = [
+           'name'
+       ];
+   }
+   ```
+
+   User.php
+
+   ```php
+       public function address(){
+           return $this->hasOne('App\Address');
+       }
+   ```
+
+   access http://onetoone.test:3000/insert
+
+   create a data 
+
+   ```sql
+   INSERT INTO `addresses` (`id`, `user_id`, `name`, `created_at`, `updated_at`) VALUES
+   (1, 1, 'address name 1', '2020-03-23 05:52:27', '2020-03-23 05:52:27');
+   ```
+
+   click F5 again create the same  data  again
 
 5. updating Data
 
+   ```php
+   Route::get('/update',function(){
+       // method 1
+       // $address = Address::where('user_id',1)->first();
+       // method 2
+       // $address = Address::where('user_id','=','1')->first();
+      
+       // method 3
+       $address = Address::whereUserId(1)->first();
+   
+       $address->name = "ofuna address name 3";
+       $address->save();
+   });
+   ```
+
 6. Reading and deleting data
+
+   ```php
+   Route::get('/read', function(){
+       $user = User::findOrFail(1);
+       echo $user->address->name;
+   });
+   
+   Route::get('/delete', function(){
+       $user = User::findOrFail(1);
+       $user->address()->delete();
+   
+       return "done";
+       // why is not soft delete
+   });
+   ```
 
 ### Section14:Laravel Fundamentals - Database - Eloquent One to Many Relationship CRUD
 
